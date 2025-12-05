@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { 
+import {
   faChartLine,
   faUsers,
   faChalkboardTeacher,
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
   ]
 
   const getStatusColor = (status) => {
-    switch(status) {
+    switch (status) {
       case 'approved': return 'bg-gradient-to-r from-green-500 to-emerald-600'
       case 'rejected': return 'bg-gradient-to-r from-red-500 to-red-600'
       case 'pending': return 'bg-gradient-to-r from-yellow-500 to-amber-600'
@@ -77,7 +77,7 @@ const AdminDashboard = () => {
           Comprehensive overview of school operations and analytics
         </p>
       </div>
-      
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl shadow-xl p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
           <div className="flex items-center justify-between">
             <div>
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
           <div className="flex items-center justify-between">
             <div>
@@ -118,7 +118,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl shadow-xl p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
           <div className="flex items-center justify-between">
             <div>
@@ -132,7 +132,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Student Growth Chart */}
@@ -148,16 +148,16 @@ const AdminDashboard = () => {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={studentGrowthData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis 
-                dataKey="month" 
+              <XAxis
+                dataKey="month"
                 stroke="#6b7280"
                 fontSize={12}
               />
-              <YAxis 
+              <YAxis
                 stroke="#6b7280"
                 fontSize={12}
               />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{
                   background: 'white',
                   border: 'none',
@@ -165,10 +165,10 @@ const AdminDashboard = () => {
                   boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
                 }}
               />
-              <Line 
-                type="monotone" 
-                dataKey="students" 
-                stroke="url(#studentGrowth)" 
+              <Line
+                type="monotone"
+                dataKey="students"
+                stroke="url(#studentGrowth)"
                 strokeWidth={3}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
                 activeDot={{ r: 7, fill: '#1d4ed8' }}
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        
+
         {/* Fee Collection Pie Chart */}
         <div className="bg-white rounded-3xl shadow-2xl p-6 border border-gray-100 transform transition-all duration-300 hover:shadow-2xl">
           <div className="flex items-center justify-between mb-6">
@@ -208,15 +208,15 @@ const AdminDashboard = () => {
                 paddingAngle={2}
               >
                 {collectionData.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
+                  <Cell
+                    key={`cell-${index}`}
                     fill={entry.color}
                     stroke="white"
                     strokeWidth={2}
                   />
                 ))}
               </Pie>
-              <Tooltip 
+              <Tooltip
                 formatter={(value) => [`$${value.toLocaleString()}`, 'Amount']}
                 contentStyle={{
                   background: 'white',
@@ -229,7 +229,7 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      
+
       {/* Fee Collection Analytics */}
       <div className="bg-white rounded-3xl shadow-2xl p-6 mb-8 border border-gray-100 transform transition-all duration-300 hover:shadow-2xl">
         <div className="flex items-center justify-between mb-6">
@@ -243,16 +243,16 @@ const AdminDashboard = () => {
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={feeData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis 
-              dataKey="class" 
+            <XAxis
+              dataKey="class"
               stroke="#6b7280"
               fontSize={12}
             />
-            <YAxis 
+            <YAxis
               stroke="#6b7280"
               fontSize={12}
             />
-            <Tooltip 
+            <Tooltip
               formatter={(value) => [`$${value.toLocaleString()}`, 'Amount']}
               contentStyle={{
                 background: 'white',
@@ -261,17 +261,17 @@ const AdminDashboard = () => {
                 boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
               }}
             />
-            <Bar 
-              dataKey="collected" 
-              stackId="a" 
-              fill="url(#collectedGradient)" 
+            <Bar
+              dataKey="collected"
+              stackId="a"
+              fill="url(#collectedGradient)"
               name="Collected"
               radius={[4, 4, 0, 0]}
             />
-            <Bar 
-              dataKey="pending" 
-              stackId="a" 
-              fill="url(#pendingGradient)" 
+            <Bar
+              dataKey="pending"
+              stackId="a"
+              fill="url(#pendingGradient)"
               name="Pending"
               radius={[4, 4, 0, 0]}
             />
@@ -288,7 +288,7 @@ const AdminDashboard = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      
+
       {/* Recent Applications */}
       <div className="bg-white rounded-3xl shadow-2xl p-6 border border-gray-100 transform transition-all duration-300 hover:shadow-2xl">
         <div className="flex justify-between items-center mb-6">
@@ -303,7 +303,7 @@ const AdminDashboard = () => {
             View All Applications
           </button>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

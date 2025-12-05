@@ -16,8 +16,14 @@ import { faTwitter, faFacebookF, faLinkedinIn, faInstagram }
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false)
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate(`/${user.role}`)
+    }
+  }, [user, loading, navigate])
 
   const handleLogin = () => {
     setShowLogin(true)
@@ -28,9 +34,16 @@ const Home = () => {
     navigate(`/${role}`)
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
+
   if (user) {
-    navigate(`/${user.role}`)
-    return null
+    return null // Will redirect via useEffect
   }
 
   return (

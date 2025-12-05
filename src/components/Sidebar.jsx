@@ -1,17 +1,17 @@
-import { 
-  faUserGraduate, 
-  faTachometerAlt, 
-  faUser, 
-  faGraduationCap, 
-  faMoneyBillWave, 
-  faCalendarAlt, 
-  faBookOpen, 
-  faTasks, 
-  faUsers, 
-  faBullhorn, 
-  faClipboardCheck, 
-  faSchool, 
-  faChartBar, 
+import {
+  faUserGraduate,
+  faTachometerAlt,
+  faUser,
+  faGraduationCap,
+  faMoneyBillWave,
+  faCalendarAlt,
+  faBookOpen,
+  faTasks,
+  faUsers,
+  faBullhorn,
+  faClipboardCheck,
+  faSchool,
+  faChartBar,
   faCog,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons'
@@ -80,11 +80,10 @@ const Sidebar = ({ role, isOpen, onClose }) => {
   const ActiveNavLink = ({ item }) => (
     <NavLink
       to={item.path}
-      className={({ isActive }) => 
-        `group relative flex items-center px-4 py-3 text-slate-300 rounded-2xl transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg ${
-          isActive 
-            ? `bg-gradient-to-r ${getRoleColor()} text-white shadow-lg scale-105`
-            : `hover:bg-gradient-to-r ${getRoleGradient()} hover:text-white`
+      className={({ isActive }) =>
+        `group relative flex items-center px-4 py-3 text-slate-300 rounded-2xl transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg ${isActive
+          ? `bg-gradient-to-r ${getRoleColor()} text-white shadow-lg scale-105`
+          : `hover:bg-gradient-to-r ${getRoleGradient()} hover:text-white`
         }`
       }
       onClick={() => {
@@ -96,35 +95,32 @@ const Sidebar = ({ role, isOpen, onClose }) => {
       {({ isActive }) => (
         <>
           {/* Animated background effect */}
-          <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${getRoleColor()} opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-            isActive ? 'opacity-100' : ''
-          }`}></div>
-          
+          <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${getRoleColor()} opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isActive ? 'opacity-100' : ''
+            }`}></div>
+
           {/* Content */}
           <div className="relative z-10 flex items-center w-full">
-            <FontAwesomeIcon 
-              icon={item.icon} 
-              className={`text-lg w-6 text-center mr-3 transition-all duration-300 ${
-                isActive ? 'text-white scale-110' : 'group-hover:text-white group-hover:scale-110'
-              }`} 
+            <FontAwesomeIcon
+              icon={item.icon}
+              className={`text-lg w-6 text-center mr-3 transition-all duration-300 ${isActive ? 'text-white scale-110' : 'group-hover:text-white group-hover:scale-110'
+                }`}
             />
             <span className="font-medium transition-all duration-300">
               {item.label}
             </span>
-            
+
             {/* Active indicator */}
             {isActive && (
               <div className="ml-auto">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
               </div>
             )}
-            
+
             {/* Hover arrow */}
-            <FontAwesomeIcon 
+            <FontAwesomeIcon
               icon={faChevronRight}
-              className={`ml-auto text-xs opacity-0 transform -translate-x-2 transition-all duration-300 ${
-                isActive ? 'opacity-100 translate-x-0' : 'group-hover:opacity-100 group-hover:translate-x-0'
-              }`} 
+              className={`ml-auto text-xs opacity-0 transform -translate-x-2 transition-all duration-300 ${isActive ? 'opacity-100 translate-x-0' : 'group-hover:opacity-100 group-hover:translate-x-0'
+                }`}
             />
           </div>
         </>
@@ -136,17 +132,16 @@ const Sidebar = ({ role, isOpen, onClose }) => {
     <>
       {/* Mobile overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
           onClick={onClose}
         ></div>
       )}
-      
+
       {/* Sidebar */}
-      <div className={`fixed lg:relative inset-y-0 left-0 z-50 w-80 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 shadow-2xl border-r border-slate-700/50 p-6 transform transition-all duration-500 ease-in-out ${
-        isOpen ? 'translate-x-0 shadow-xl' : '-translate-x-full lg:translate-x-0'
-      }`}>
-        
+      <div className={`fixed lg:relative inset-y-0 left-0 z-50 w-80 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 shadow-2xl border-r border-slate-700/50 p-6 transform transition-all duration-500 ease-in-out ${isOpen ? 'translate-x-0 shadow-xl' : '-translate-x-full lg:translate-x-0'
+        }`}>
+
         {/* Header */}
         <div className="mb-8 pt-4">
           <div className="flex items-center space-x-3 mb-2">
@@ -169,7 +164,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
           ))}
         </nav>
 
-        
+
       </div>
     </>
   )
