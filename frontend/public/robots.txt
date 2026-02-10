@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /teacher/
+Disallow: /student/
+
+# Sitemap location
+Sitemap: https://yourschool.com/sitemap.xml
