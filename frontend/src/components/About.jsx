@@ -15,10 +15,7 @@ export default function About() {
           <div className="space-y-6">
             <div className="mb-6">
               <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-3">
-                The Ocean of Knowledge
-                <span className="block text-lg md:text-xl text-blue-600 font-normal mt-1">
-                  School System
-                </span>
+                The Ocean of Knowledge School
               </h1>
               <p className="text-lg text-gray-600 italic">
                 Kot Charbagh, Swat, Pakistan
@@ -72,7 +69,7 @@ export default function About() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-gradient-to-br from-blue-500 to-teal-500 text-white p-5 rounded-xl text-center">
-                <div className="text-3xl font-bold mb-2">7th</div>
+                <div className="text-3xl font-bold mb-2">10th</div>
                 <div className="font-semibold">Grade Level</div>
                 <p className="text-sm opacity-90 mt-1">Education up to Middle Level</p>
               </div>

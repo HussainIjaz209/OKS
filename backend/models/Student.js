@@ -75,6 +75,12 @@ const studentSchema = new mongoose.Schema({
     profilePicture: {
         type: String,
     },
+    FatherName: {
+        type: String,
+    },
+    MotherName: {
+        type: String,
+    },
     // Legacy fields for backward compatibility
     rollNumber: {
         type: String,

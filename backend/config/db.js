@@ -11,6 +11,12 @@ const connectDB = async () => {
     }
 
     try {
+        console.log('Attempting to connect to MongoDB...');
+        // Debugging: Log the URI (masked)
+        const uri = process.env.MONGO_URI || '';
+        const maskedURI = uri.replace(/:([^:@]+)@/, ':****@');
+        console.log(`Connecting to: ${maskedURI}`);
+
         const conn = await mongoose.connect(process.env.MONGO_URI, {
             family: 4,
             // Optimize for serverless

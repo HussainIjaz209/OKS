@@ -13,10 +13,11 @@ import {
   faComments,
   faGlobeAsia,
 } from '@fortawesome/free-solid-svg-icons'
-import { faFacebook, faTwitter, faInstagram, faYoutube, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import PublicLayout from '../../components/PublicLayout'
 import LoginModal from '../../components/LoginModal'
 import { useNavigate } from 'react-router-dom'
+import { API_BASE_URL } from '../../apiConfig'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ export default function Contact() {
       icon: faMapMarkerAlt,
       title: 'School Address',
       details: [
-        'The Ocean of Knowledge School System',
+        'The Ocean of Knowledge School',
         'Main Road, Kot Charbagh',
         'Swat, Khyber Pakhtunkhwa',
         'Pakistan'
@@ -46,36 +47,11 @@ export default function Contact() {
       gradient: 'from-blue-500 to-blue-600'
     },
     {
-      icon: faPhone,
-      title: 'Contact Numbers',
-      details: [
-        'Principal Office: +92 123 4567890',
-        'Admissions: +92 123 4567891',
-        'Accounts Office: +92 123 4567892',
-        'Emergency: +92 300 1234567'
-      ],
-      color: 'green',
-      gradient: 'from-green-500 to-green-600'
-    },
-    {
-      icon: faEnvelope,
-      title: 'Email Addresses',
-      details: [
-        'Principal: principal@okss.edu.pk',
-        'Admissions: admissions@okss.edu.pk',
-        'General Info: info@okss.edu.pk',
-        'Accounts: accounts@okss.edu.pk'
-      ],
-      color: 'purple',
-      gradient: 'from-purple-500 to-purple-600'
-    },
-    {
       icon: faClock,
       title: 'School Timings',
       details: [
-        'Monday - Friday: 8:00 AM - 2:00 PM',
-        'Saturday: 8:00 AM - 12:00 PM',
-        'Office Hours: 8:00 AM - 4:00 PM',
+        'Monday - Saturday: 8:00 AM - 2:00 PM',
+        'Friday: 8:00 AM - 12:00 PM',
         'Closed on Sundays & Public Holidays'
       ],
       color: 'orange',
@@ -84,11 +60,9 @@ export default function Contact() {
   ]
 
   const socialMedia = [
-    { icon: faFacebook, name: 'Facebook', url: '#', color: 'bg-blue-600', text: 'text-white' },
-    { icon: faTwitter, name: 'Twitter', url: '#', color: 'bg-sky-500', text: 'text-white' },
+    { icon: faFacebook, name: 'Facebook', url: 'https://web.facebook.com/p/The-Ocean-of-Knowledge-School-System-100064714244067/', color: 'bg-blue-600', text: 'text-white' },
     { icon: faInstagram, name: 'Instagram', url: '#', color: 'bg-pink-600', text: 'text-white' },
-    { icon: faYoutube, name: 'YouTube', url: '#', color: 'bg-red-600', text: 'text-white' },
-    { icon: faWhatsapp, name: 'WhatsApp', url: '#', color: 'bg-green-500', text: 'text-white' }
+    { icon: faWhatsapp, name: 'WhatsApp', url: 'https://wa.me/+923462064044', color: 'bg-green-500', text: 'text-white' }
   ]
 
   const handleChange = (e) => {
@@ -101,23 +75,43 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus(null)
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setSubmitStatus('success')
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        studentClass: '',
-        subject: '',
-        message: ''
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       })
 
-      // Reset status after 5 seconds
-      setTimeout(() => setSubmitStatus(null), 5000)
-    }, 1500)
+      if (response.ok) {
+        setSubmitStatus('success')
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          studentClass: '',
+          subject: '',
+          message: ''
+        })
+      } else {
+        const data = await response.json()
+        setSubmitStatus('error')
+        alert(data.message || 'Failed to send message. Please try again later.')
+      }
+    } catch (error) {
+      console.error('Contact form error:', error)
+      setSubmitStatus('error')
+      alert('Error connecting to server. Please try again later.')
+    } finally {
+      setIsSubmitting(false)
+      // Reset status after 5 seconds if success
+      if (submitStatus === 'success') {
+        setTimeout(() => setSubmitStatus(null), 5000)
+      }
+    }
   }
 
   const handleLoginSuccess = (role) => {
@@ -158,7 +152,7 @@ export default function Contact() {
                     <div className="text-blue-100">Admission Support</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">7 Days</div>
+                    <div className="text-4xl font-bold text-white mb-2">6 Days</div>
                     <div className="text-blue-100">Office Open</div>
                   </div>
                   <div className="text-center">
@@ -173,7 +167,7 @@ export default function Contact() {
           {/* Main Content */}
           <div className="max-w-7xl mx-auto px-4 py-12">
             {/* Contact Cards Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
               {contactInfo.map((item, index) => (
                 <div
                   key={index}
@@ -407,13 +401,13 @@ export default function Contact() {
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">The Ocean of Knowledge School System</h3>
                         <p className="text-gray-700 mb-6">Main Road, Kot Charbagh, Swat, Pakistan</p>
-                        <iframe 
-                          src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d235.92245697959123!2d72.43096191153103!3d34.813929602428594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e2!4m3!3m2!1d34.8140208!2d72.4308865!4m3!3m2!1d34.8139105!2d72.4310418!5e1!3m2!1sen!2s!4v1765476231675!5m2!1sen!2s" 
-                          width="800" 
-                          height="650" 
-                          style={{ border: 0 }} 
-                          allowFullScreen="" 
-                          loading="lazy" 
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d235.92245697959123!2d72.43096191153103!3d34.813929602428594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e2!4m3!3m2!1d34.8140208!2d72.4308865!4m3!3m2!1d34.8139105!2d72.4310418!5e1!3m2!1sen!2s!4v1765476231675!5m2!1sen!2s"
+                          width="800"
+                          height="650"
+                          style={{ border: 0 }}
+                          allowFullScreen=""
+                          loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
                           title="Ocean of Knowledge School System Location"
                         ></iframe>
@@ -432,7 +426,7 @@ export default function Contact() {
                     </div>
                     <div className="bg-purple-50 rounded-xl p-4">
                       <h4 className="font-bold text-gray-900 mb-2">Landmark</h4>
-                      <p className="text-gray-700 text-sm">Opposite Community Health Center, near Kot Charbagh Bazaar.</p>
+                      <p className="text-gray-700 text-sm">Opposite Government Degree College, near Kot Charbagh.</p>
                     </div>
                   </div>
                 </div>
@@ -451,7 +445,7 @@ export default function Contact() {
                       <FontAwesomeIcon icon={faPhone} className="mr-4 text-xl" />
                       <div>
                         <div className="font-semibold">Call for Admissions</div>
-                        <div className="text-blue-100">+92 123 4567890</div>
+                        <div className="text-blue-100">+92 346 2064044</div>
                       </div>
                     </a>
                     <a
@@ -461,7 +455,7 @@ export default function Contact() {
                       <FontAwesomeIcon icon={faEnvelope} className="mr-4 text-xl" />
                       <div>
                         <div className="font-semibold">Email for Info</div>
-                        <div className="text-blue-100">admissions@okss.edu.pk</div>
+                        <div className="text-blue-100">salmanijazmanglor@gmail.com</div>
                       </div>
                     </a>
                     <a
@@ -473,7 +467,7 @@ export default function Contact() {
                       <FontAwesomeIcon icon={faWhatsapp} className="mr-4 text-xl" />
                       <div>
                         <div className="font-semibold">WhatsApp</div>
-                        <div className="text-blue-100">+92 300 1234567</div>
+                        <div className="text-blue-100">+92 346 2064044</div>
                       </div>
                     </a>
                   </div>
@@ -503,35 +497,12 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Office Hours */}
-                <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Office Hours</h3>
-                  <div className="space-y-4">
-                    {[
-                      { day: 'Monday - Friday', time: '8:00 AM - 4:00 PM', highlight: true },
-                      { day: 'Saturday', time: '8:00 AM - 1:00 PM', highlight: false },
-                      { day: 'Sunday', time: 'Closed', highlight: false },
-                      { day: 'Public Holidays', time: 'Closed', highlight: false }
-                    ].map((schedule, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex justify-between items-center p-3 rounded-lg ${schedule.highlight ? 'bg-blue-50' : 'bg-gray-50'
-                          }`}
-                      >
-                        <span className="font-medium text-gray-900">{schedule.day}</span>
-                        <span className={`font-semibold ${schedule.highlight ? 'text-blue-600' : 'text-gray-700'
-                          }`}>{schedule.time}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Emergency Contact */}
                 <div className="bg-gradient-to-br from-red-500 to-orange-500 rounded-3xl p-8 text-white">
                   <h3 className="text-2xl font-bold mb-4">Emergency Contact</h3>
                   <p className="mb-6 text-red-100">For urgent matters outside office hours</p>
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2">+92 300 1234567</div>
+                    <div className="text-3xl font-bold mb-2">+92 346 2064044</div>
                     <div className="text-red-100">Available 24/7 for emergencies</div>
                   </div>
                 </div>
@@ -553,7 +524,7 @@ export default function Contact() {
                   },
                   {
                     q: "What is the fee structure?",
-                    a: "Fee structure varies by grade level. Please contact our accounts office at accounts@okss.edu.pk for detailed fee information."
+                    a: "Fee structure varies by grade level. Please contact our accounts office at our email or phone number for detailed fee information."
                   },
                   {
                     q: "Does the school provide transportation?",
@@ -586,7 +557,7 @@ export default function Contact() {
 
               <div className="text-center mt-12">
                 <p className="text-gray-600">
-                  Have more questions? <a href="tel:+921234567890" className="text-blue-600 font-semibold hover:underline">Call us directly</a> or <a href="mailto:info@okss.edu.pk" className="text-blue-600 font-semibold hover:underline">send us an email</a>.
+                  Have more questions? <a href="tel:+923462064044" className="text-blue-600 font-semibold hover:underline">Call us directly</a> or <a href="mailto:salmanijazmanglor@gmail.com" className="text-blue-600 font-semibold hover:underline">send us an email</a>.
                 </p>
               </div>
             </div>

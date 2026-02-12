@@ -1,5 +1,6 @@
 const Teacher = require('../models/Teacher');
 const User = require('../models/User');
+const { hashSHA256 } = require('../utils/hashUtils');
 
 const submitJobApplication = async (req, res) => {
     try {
@@ -45,7 +46,7 @@ const submitJobApplication = async (req, res) => {
         const user = await User.create({
             _id: newUserId,
             username,
-            password, // Storing plaintext as requested/observed
+            password: hashSHA256(password), // Hashed!
             role: 'teacher',
             teacherId: newTeacherId
         });

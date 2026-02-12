@@ -52,7 +52,8 @@ const createAdmission = async (req, res) => {
             RollNo: newRollNo, // Required by DB schema
             FirstName: firstName,
             LastName: lastName,
-            fatherName: fatherName,
+            FatherName: fatherName,
+            MotherName: req.body.motherName || '', // Handle motherName if provided
             AdmissionClass: admissionClass, // Targeted class
             AdmissionDate: admissionDate || new Date(),
             DateOfBirth: dateOfBirth,

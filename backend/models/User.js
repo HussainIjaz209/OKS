@@ -28,10 +28,16 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+const { comparePassword } = require('../utils/hashUtils');
+
 // Match user entered password to password in database
 userSchema.methods.matchPassword = async function (enteredPassword) {
-    // Standard comparison for plaintext passwords to match legacy data
-    return enteredPassword === this.password;
+    // If password is plain text (legacy), do direct comparison
+    if (this.password.length < 60) { // SHA-256 hex is 64 chars
+        return enteredPassword === this.password;
+    }
+    // Otherwise comparing hash
+    return comparePassword(enteredPassword, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

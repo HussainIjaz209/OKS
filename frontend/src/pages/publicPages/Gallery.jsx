@@ -108,7 +108,7 @@ export default function Gallery() {
                   School <span className="bg-gradient-to-r from-yellow-300 to-yellow-400 bg-clip-text text-transparent">Gallery</span>
                 </h1>
                 <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-10">
-                  Capturing precious moments, achievements, and celebrations at The Ocean of Knowledge School System
+                  Capturing precious moments, achievements, and celebrations at The Ocean of Knowledge School
                 </p>
 
                 {/* Search Bar */}
@@ -272,7 +272,7 @@ export default function Gallery() {
                   <div className="text-blue-100">Events Covered</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-white mb-2">2020</div>
+                  <div className="text-4xl font-bold text-white mb-2">2018</div>
                   <div className="text-blue-100">Since Establishment</div>
                 </div>
                 <div className="text-center">

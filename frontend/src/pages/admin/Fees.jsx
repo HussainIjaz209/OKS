@@ -336,7 +336,7 @@ const AdminFees = () => {
                             </tr>
                             <tr>
                                 <td>Father Name</td>
-                                <td class="val">${student.fatherName || student.FatherName || '---'}</td>
+                                <td class="val">${student.FatherName || student.fatherName || '---'}</td>
                             </tr>
                             <tr>
                                 <td>Class</td>

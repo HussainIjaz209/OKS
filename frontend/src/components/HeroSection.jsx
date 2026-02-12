@@ -80,7 +80,7 @@ const HeroSection = () => {
             </div>
 
             <h1 className="text-5xl lg:text-5xl font-black text-white mb-6 leading-tight">
-              The Ocean of Knowledge School System
+              The Ocean of Knowledge School
             </h1>
             <h2 className="block text-black lg:text-2xl ">
               Kot Charbagh Swat
@@ -109,15 +109,12 @@ const HeroSection = () => {
             {/* Stats */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-12">
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">50K+</div>
+                <div className="text-3xl font-bold text-white">1000+</div>
                 <div className="text-blue-200 text-sm">Students</div>
               </div>
+              
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">200+</div>
-                <div className="text-blue-200 text-sm">Schools</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">99%</div>
+                <div className="text-3xl font-bold text-white">100%</div>
                 <div className="text-blue-200 text-sm">Satisfaction</div>
               </div>
             </div>

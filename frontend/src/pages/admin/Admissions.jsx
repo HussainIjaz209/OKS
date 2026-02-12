@@ -385,7 +385,7 @@ const AdminAdmissions = () => {
 
                 <div class="row">
                     <div class="field"><span class="label">Name of student:</span> ${studentFullName}</div>
-                    <div class="field"><span class="label">Father Name:</span> ${app.fatherName || '———'}</div>
+                    <div class="field"><span class="label">Father Name:</span> ${app.FatherName || app.fatherName || '———'}</div>
                 </div>
 
                 <div class="row">
@@ -416,7 +416,7 @@ const AdminAdmissions = () => {
                 <div class="section-title">GUARDIAN PROFILE</div>
 
                 <div class="row">
-                    <div class="field"><span class="label">Name of Guardian:</span> ${app.GuardianName || app.fatherName || '———'}</div>
+                    <div class="field"><span class="label">Name of Guardian:</span> ${app.GuardianName || app.FatherName || app.fatherName || '———'}</div>
                     <div class="field"><span class="label">Guardian CNIC:</span> ${app.CNIC || app.guardianCNIC || '———————————'}</div>
                 </div>
 
@@ -438,7 +438,7 @@ const AdminAdmissions = () => {
                 <div class="section-title">Declaration:</div>
 
                 <div class="declaration">
-                    I, <b>${app.GuardianName || app.fatherName}</b>, the Father/Guardian of <b>${studentFullName}</b>, hereby solemnly declare that the particulars that I
+                    I, <b>${app.GuardianName || app.FatherName || app.fatherName}</b>, the Father/Guardian of <b>${studentFullName}</b>, hereby solemnly declare that the particulars that I
                     provide to the institution in the Admission Form are correct and true to the best of my knowledge and belief.
                     In case of any incorrect or false information, I understand that I will be held responsible and liable for
                     any consequences. I also agree to abide by the decision of the management and follow all the school/college rules
@@ -470,9 +470,9 @@ const AdminAdmissions = () => {
     const filteredApplications = (applications || []).filter(app => {
         const matchesStatus = selectedStatus === 'all' || app.status === selectedStatus
         const studentName = `${app.FirstName || ''} ${app.LastName || ''}`.trim()
-        const fatherName = app.fatherName || ''
+        const fatherNameValue = app.FatherName || app.fatherName || ''
         const matchesSearch = studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            fatherName.toLowerCase().includes(searchQuery.toLowerCase())
+            fatherNameValue.toLowerCase().includes(searchQuery.toLowerCase())
         return matchesStatus && matchesSearch
     })
 
@@ -605,7 +605,7 @@ const AdminAdmissions = () => {
                                             {app.AdmissionClass || app.CurrentClass}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="text-sm text-gray-900 font-medium">{app.fatherName}</div>
+                                            <div className="text-sm text-gray-900 font-medium">{app.FatherName || app.fatherName}</div>
                                             <div className="text-xs text-gray-500 flex items-center mt-1">
                                                 <FontAwesomeIcon icon={faPhone} className="mr-1" />
                                                 {app.GuardianContactNo || app.guardianContact}

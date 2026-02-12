@@ -105,12 +105,13 @@ router.get('/profile/:userId', async (req, res) => {
         const profileData = {
             studentId: student._id,
             name: userName,
-            email: userEmail,
             profileImage: userProfileImage,
             rollNumber: student.RollNo || student.rollNumber,
             class: student.class ? student.class.name : (student.CurrentClass || student.AdmissionClass || 'Not Assigned'),
+            lastName: student.LastName,
             section: student.section || 'Not Assigned',
-            fatherName: student.fatherName || student.GuardianName || 'N/A', // Fallback to GuardianName
+            fatherName: student.FatherName || student.fatherName || student.GuardianName || 'N/A', // Unified mapping
+            email: student.email || student.user?.email || 'N/A',
             motherName: student.motherName || 'N/A',
             dateOfBirth: student.DateOfBirth || student.dateOfBirth,
             contactNumber: student.contactNumber || student.GuardianContactNo || 'N/A',

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Student = require('../models/Student');
+const { hashSHA256 } = require('../utils/hashUtils');
 
 // @route   POST /api/auth/login
 // @desc    Authenticate user and return user data
@@ -65,18 +66,22 @@ router.post('/login', async (req, res) => {
                 }
             }
 
-            if (student && student.password === password) {
-                isDirectMatch = true;
-                user = {
-                    _id: student._id,
-                    name: `${student.FirstName} ${student.LastName}`,
-                    username: student.username,
-                    email: student.email || student.username,
-                    role: 'student',
-                    profileImage: '',
-                    studentId: student._id, // Explicitly set studentId in fallback
-                    matchPassword: async () => true
-                };
+            if (student) {
+                // Check against plain text (legacy) OR hash
+                const isMatch = student.password === password || student.password === hashSHA256(password);
+                if (isMatch) {
+                    isDirectMatch = true;
+                    user = {
+                        _id: student._id,
+                        name: `${student.FirstName} ${student.LastName}`,
+                        username: student.username,
+                        email: student.email || student.username,
+                        role: 'student',
+                        profileImage: '',
+                        studentId: student._id, // Explicitly set studentId in fallback
+                        matchPassword: async () => true
+                    };
+                }
             }
         }
 
@@ -199,10 +204,13 @@ router.post('/setup-student', async (req, res) => {
 
         // 3. Create new User record
         // Use Student ID as User ID for 1:1 mapping
+        const { hashSHA256 } = require('../utils/hashUtils');
+        const hashedPassword = hashSHA256(password);
+
         const newUser = new User({
             _id: student._id, // Syncing IDs
             username,
-            password,
+            password: hashedPassword,
             studentId: student._id,
             role: 'student'
         });

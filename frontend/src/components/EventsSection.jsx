@@ -76,8 +76,8 @@ const EventsSection = () => {
             <span className="text-blue-800 font-semibold">School Events & Activities</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            The Ocean of Knowledge
-            <span className="block text-3xl md:text-4xl lg:text-5xl text-blue-600 mt-2">School Events Gallery</span>
+            The Ocean of Knowledge School
+            <span className="block text-3xl md:text-4xl lg:text-5xl text-blue-600 mt-2"> Events Gallery</span>
           </h2>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             Celebrating achievements, cultural heritage, and special moments that make our school community vibrant and united.

@@ -5,6 +5,7 @@ const Admin = require('../models/Admin');
 const FeeInvoice = require('../models/FeeInvoice');
 const Result = require('../models/Result');
 const Class = require('../models/Class');
+const { hashSHA256 } = require('../utils/hashUtils');
 
 const getAllUsers = async (req, res) => {
     try {
@@ -231,7 +232,7 @@ const createAdmin = async (req, res) => {
         const newUser = new User({
             username,
             email,
-            password, // In a real app, hash this!
+            password: hashSHA256(password), // Hashed!
             role: 'admin',
         });
 
@@ -288,7 +289,7 @@ const updateCredentials = async (req, res) => {
         }
 
         if (newPassword) {
-            user.password = newPassword;
+            user.password = hashSHA256(newPassword);
         }
 
         await user.save();

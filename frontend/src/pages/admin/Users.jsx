@@ -293,8 +293,8 @@ const AdminUsers = () => {
                         <center><div class="cert-title">Birth Certificate</div></center>
                         <div class="content">
                             This is to certify that <span class="field">${student.FirstName} ${student.LastName}</span>, 
-                            child of <span class="field">${student.GuardianName || 'N/A'}</span>, 
-                            was born on <span class="field">${new Date(student.DateOfBirth).toLocaleDateString()}</span>.
+                            child of <span class="field">${student.FatherName || student.fatherName || student.GuardianName || 'N/A'}</span>, 
+                            was born on <span class="field">${new Date(student.DateOfBirth || student.dateOfBirth).toLocaleDateString()}</span>.
                             As per school records, the gender of the child is registered as <span class="field">${student.Gender || 'N/A'}</span>.
                         </div>
                         <div class="footer">
@@ -337,7 +337,7 @@ const AdminUsers = () => {
                         <center><div class="cert-title">Character Certificate</div></center>
                         <div class="content">
                             This is to certify that <span class="field">${student.FirstName} ${student.LastName}</span>, 
-                            child of <span class="field">${student.GuardianName || 'N/A'}</span>, 
+                            child of <span class="field">${student.FatherName || student.fatherName || student.GuardianName || 'N/A'}</span>, 
                             has been a student of our school since <span class="field">${new Date(student.AdmissionDate).toLocaleDateString()}</span>.
                             During their period of study, the student has demonstrated exemplary conduct and character. 
                             We found them to be diligent, hard-working, and respectful towards their peers and teachers.
@@ -980,11 +980,10 @@ const AdminUsers = () => {
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
                                     <input
-                                        type="email"
-                                        className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                                        value={editFormData.email || ''}
-                                        onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
-                                    />
+                                        type="text"
+                                        className="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editFormData.FatherName || editFormData.fatherName || ''}
+                                        onChange={(e) => setEditFormData({ ...editFormData, FatherName: e.target.value })} />
                                 </div>
                             )}
 

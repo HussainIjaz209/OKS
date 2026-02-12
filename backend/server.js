@@ -1,5 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
+
+
+// Load env vars immediately
+dotenv.config({ override: true });
+
 const cors = require('cors');
 const connectDB = require('./config/db');
 const admissionRoutes = require('./routes/admissionRoutes');
@@ -9,8 +14,6 @@ const feeRoutes = require('./routes/feeRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const { initFeeScheduler } = require('./utils/feeScheduler');
-
-dotenv.config();
 
 // Initialize database connection
 connectDB();
@@ -47,6 +50,7 @@ app.use('/api/events', require('./routes/eventRoutes'));
 app.use('/api/expenses', require('./routes/expenseRoutes'));
 app.use('/api/reports', require('./routes/reportRoutes'));
 app.use('/api/evaluations', require('./routes/evaluationRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
 
 app.get('/', (req, res) => {
     res.send('API is running...');

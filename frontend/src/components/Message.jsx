@@ -52,8 +52,7 @@ export default function Message() {
                     </div>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">The Ocean of Knowledge</h3>
-                <p className="text-blue-600 font-medium mb-4">School System</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">The Ocean of Knowledge School</h3>
                 <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full">
                   <span className="text-sm font-semibold text-blue-800">Kot Charbagh, Swat, Pakistan</span>
                 </div>
@@ -101,7 +100,7 @@ export default function Message() {
                   {/* Opening Paragraph */}
                   <div className="relative">
                     <p className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-8">
-                      At The Ocean of Knowledge School System, our mission is to provide a nurturing, disciplined, and inspiring environment where every child can discover their potential.
+                      At The Ocean of Knowledge School, our mission is to provide a nurturing, disciplined, and inspiring environment where every child can discover their potential.
                     </p>
                   </div>
 
