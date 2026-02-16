@@ -5,4 +5,4 @@ Disallow: /teacher/
 Disallow: /student/
 
 # Sitemap location
-Sitemap: https://yourschool.com/sitemap.xml
+Sitemap: https://theoceanofknowledge.com/sitemap.xml
