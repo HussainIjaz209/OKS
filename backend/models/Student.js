@@ -9,6 +9,12 @@ const studentSchema = new mongoose.Schema({
     RollNo: {
         type: Number,
     },
+    username: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
     FirstName: {
         type: String,
         required: true,

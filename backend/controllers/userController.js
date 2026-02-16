@@ -61,13 +61,16 @@ const updateUserStatus = async (req, res) => {
         const { id } = req.params;
         const { status, role } = req.body;
 
+        const mongoose = require('mongoose');
+
+        // Robust match for User (_id is Mixed)
+        const userMatch = [{ _id: id }];
+        if (!isNaN(id)) userMatch.push({ _id: parseInt(id) });
+        if (mongoose.Types.ObjectId.isValid(id)) userMatch.push({ _id: new mongoose.Types.ObjectId(id) });
+
+        let user = await User.findOne({ $or: userMatch });
+
         if (role === 'teacher') {
-            let user = await User.findOne({
-                $or: [
-                    { _id: id },
-                    { _id: !isNaN(id) ? parseInt(id) : null }
-                ]
-            });
             if (!user || !user.teacherId) {
                 return res.status(404).json({ message: 'Teacher not found' });
             }
@@ -75,12 +78,6 @@ const updateUserStatus = async (req, res) => {
             await Teacher.findByIdAndUpdate(user.teacherId, { status });
             return res.json({ message: `Teacher status updated to ${status}` });
         } else if (role === 'student') {
-            let user = await User.findOne({
-                $or: [
-                    { _id: id },
-                    { _id: !isNaN(id) ? parseInt(id) : null }
-                ]
-            });
             if (!user || !user.studentId) {
                 return res.status(404).json({ message: 'Student not found' });
             }
@@ -113,12 +110,14 @@ const updateUserDetails = async (req, res) => {
             updates.profilePicture = req.file.filename;
         }
 
-        let user = await User.findOne({
-            $or: [
-                { _id: id },
-                { _id: !isNaN(id) ? parseInt(id) : null }
-            ]
-        });
+        const mongoose = require('mongoose');
+
+        // Robust match for User (_id is Mixed)
+        const userMatch = [{ _id: id }];
+        if (!isNaN(id)) userMatch.push({ _id: parseInt(id) });
+        if (mongoose.Types.ObjectId.isValid(id)) userMatch.push({ _id: new mongoose.Types.ObjectId(id) });
+
+        let user = await User.findOne({ $or: userMatch });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -138,6 +137,14 @@ const updateUserDetails = async (req, res) => {
                 user.email = updates.email;
                 await user.save();
             }
+        } else if (user.role === 'admin' && updates.email) {
+            // Update email for admin too
+            user.email = updates.email;
+            await user.save();
+
+            // Also update Admin profile if it exists
+            const Admin = require('../models/Admin');
+            await Admin.findOneAndUpdate({ user: user._id }, { email: updates.email });
         }
 
         res.json({ message: 'User details updated successfully' });
@@ -261,19 +268,20 @@ const updateCredentials = async (req, res) => {
     try {
         const { id } = req.params;
         const { username, currentPassword, newPassword } = req.body;
+        const mongoose = require('mongoose');
 
-        let user = await User.findOne({
-            $or: [
-                { _id: id },
-                { _id: !isNaN(id) ? parseInt(id) : null }
-            ]
-        });
+        // Robust match for User (_id is Mixed)
+        const userMatch = [{ _id: id }];
+        if (!isNaN(id)) userMatch.push({ _id: parseInt(id) });
+        if (mongoose.Types.ObjectId.isValid(id)) userMatch.push({ _id: new mongoose.Types.ObjectId(id) });
+
+        let user = await User.findOne({ $or: userMatch });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Verify current password (using standard comparison for plaintext)
+        // Verify current password
         const isPasswordCorrect = await user.matchPassword(currentPassword);
         if (!isPasswordCorrect) {
             return res.status(400).json({ message: 'Incorrect current password' });
@@ -281,7 +289,7 @@ const updateCredentials = async (req, res) => {
 
         if (username && username !== user.username) {
             // Check if username already exists for another user
-            const existingUser = await User.findOne({ username, _id: { $ne: id } });
+            const existingUser = await User.findOne({ username, _id: { $ne: user._id } });
             if (existingUser) {
                 return res.status(400).json({ message: 'Username already taken' });
             }
@@ -289,7 +297,14 @@ const updateCredentials = async (req, res) => {
         }
 
         if (newPassword) {
-            user.password = hashSHA256(newPassword);
+            const hashedPassword = hashSHA256(newPassword);
+            user.password = hashedPassword;
+
+            // Sync password with Student record if it exists (for legacy/fallback login)
+            if (user.role === 'student' && user.studentId) {
+                await Student.findByIdAndUpdate(user.studentId, { password: hashedPassword });
+            }
+            // Teacher record doesn't store password, it uses User record
         }
 
         await user.save();
