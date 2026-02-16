@@ -5,4 +5,4 @@ Disallow: /teacher/
 Disallow: /student/
 
 # Sitemap location
-Sitemap: https://theoceanofknowledge.com/sitemap.xml
+Sitemap: https://oks-kappa.vercel.app/sitemap.xml
